@@ -5,7 +5,9 @@ import { useDispatch } from "react-redux";
 import { userLogout } from "../../helpers/redux/slices";
 import { FiLogOut } from "react-icons/fi";
 
-export default memo(function Navbar({ handleSignIn, user }) {
+
+export default memo(function Navbar({ handleSignIn, handleProfileClick ,user }) {
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
@@ -63,7 +65,7 @@ export default memo(function Navbar({ handleSignIn, user }) {
                   <ul className="py-2">
                     <li
                       className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-gray-100"
-                      onClick={() => console.log("Profile Clicked")}
+                      onClick={handleProfileClick}
                     >
                       <FaUserCircle size={18} />
                       Profile

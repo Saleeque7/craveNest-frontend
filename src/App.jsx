@@ -8,6 +8,7 @@ import {
   PublicRoute,
 } from "./helpers/middleware/protectedMiddleware";
 
+
 function App() {
   const [count, setCount] = useState(0);
 

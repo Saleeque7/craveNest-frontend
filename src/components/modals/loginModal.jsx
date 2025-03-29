@@ -2,10 +2,10 @@ import React, { memo, useEffect, useRef, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { userApi } from "../../helpers/api/axioscall";
 import { Flip, Slide, toast } from "react-toastify";
-import { setUserInfo } from "../../helpers/redux/slices";
+import { setUserInfo ,setAuthenticate } from "../../helpers/redux/slices";
 import { useDispatch } from "react-redux";
 
-export default memo(function LoginModal({ isOpen, onClose }) {
+export default function LoginModal({ isOpen, onClose }) {
   if (!isOpen) return null;
   const [currentState, setCurrentState] = useState("login");
   const [username, setUsername] = useState("");
@@ -32,15 +32,20 @@ export default memo(function LoginModal({ isOpen, onClose }) {
     e.preventDefault();
     try {
       const response =  await userApi.post('signin',{ username })
-      if (response.data && response.data.success) {
+      const token = response?.data?.accessToken
+      if (response.data && response.data.success && token) {
         toast.success(response.data.message, {
           transition: Slide,
           autoClose: 1000,
         });
-        dispatch(setUserInfo(response.data.user))
-        setTimeout(() => {
-          onClose();
-        }, 2000);
+        onClose();
+        console.log(response.data);
+        
+        localStorage.setItem("userTokenKey",token);
+        dispatch(setUserInfo(response.data.user));
+        dispatch(setAuthenticate());
+        
+      
       }
     } catch (error) {
       console.error(error, "error in submitting form");
@@ -85,12 +90,15 @@ export default memo(function LoginModal({ isOpen, onClose }) {
     try {
       const userData = { name, email, otp };
       const response = await userApi.post("/verify", userData);
-      if (response.data && response.data.success) {
+      const token = response?.data?.accessToken
+      if (response.data && response.data.success && token) {
         toast.success(response.data.message, {
           transition: Slide,
           autoClose: 1000,
         });
-        dispatch(setUserInfo(response.data.user))
+        localStorage.setItem("userTokenKey",token);
+        dispatch(setUserInfo(response.data.user));
+        dispatch(setAuthenticate());
         setTimeout(() => {
           onClose();
         }, 2000);
@@ -109,7 +117,7 @@ export default memo(function LoginModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex justify-end  ">
+    <div className="fixed inset-0 bg-black/40 flex justify-end z-50 ">
       <div
         className="bg-white rounded-l-2xl shadow-xl w-[550px] items-start p-6 h-full relative space-y-8 "
         ref={contentRef}
@@ -275,4 +283,4 @@ export default memo(function LoginModal({ isOpen, onClose }) {
       </div>
     </div>
   );
-})
+}

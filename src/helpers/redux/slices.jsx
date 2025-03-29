@@ -12,10 +12,12 @@ const userSlice = createSlice({
             state.user = action.payload
         },
         setAuthenticated(state){
-            state.isAuthenticated = !state.isAuthenticated
+            state.isAuthenticated = true
         },
         userLogout(state){
             state.user = null
+            state.isAuthenticated = false
+            localStorage.removeItem('userTokenKey')
         }
     }
 })

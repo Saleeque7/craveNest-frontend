@@ -1,4 +1,6 @@
 import { config } from "../../config/config";
+import { adminLogout } from "../redux/adminSlice";
+import { userLogout } from "../redux/slices";
 import { store } from "../redux/store";
 import axios from "axios";
 
@@ -62,15 +64,15 @@ const CreateInstance = (baseURL, accessTokenKey, action, contentType) => {
   return instance;
 };
 
-export const userAxiosInstance = CreateInstance(
+export const userInstance = CreateInstance(
   baseUrl,
-  "accessTokenuserKey",
+  "userTokenKey",
   userLogout,
   "application/json"
 );
-export const userformAxiosInstance = CreateInstance(
+export const adminInstance = CreateInstance(
   baseUrl,
-  "accessTokenuserKey",
-  userLogout,
-  "multipart/form-data"
+  "adminTokenKey",
+  adminLogout,
+ "application/json"
 );
