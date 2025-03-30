@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { adminApi } from '../../helpers/api/axioscall';
+import { adminInstance } from '../../helpers/api/inteceptors';
 import { Flip, Slide, toast } from 'react-toastify';
 
 const AddCategoryForm = ({ categories, onCategoryAdded }) => {
@@ -14,7 +14,7 @@ const AddCategoryForm = ({ categories, onCategoryAdded }) => {
                 name,
                 parentId: parentId || null  
             };
-            const response = await adminApi.post('category', payload);
+            const response = await adminInstance.post('category', payload);
 
             if (response.data && response.data.success) {
                 toast.success(response.data.message, {

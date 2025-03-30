@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { adminApi } from "../../helpers/api/axioscall";
+import { adminInstance } from "../../helpers/api/inteceptors";
 import { Flip, Slide, toast } from "react-toastify";
 import { FaRegListAlt } from "react-icons/fa";
 import ConfirmationModal from "../modals/confirmationModal";
@@ -54,7 +54,7 @@ export default function EditCategoryPage() {
   const fetchCategories = async () => {
     setIsLoading(true);
     try {
-      const response = await adminApi.get("category");
+      const response = await adminInstance.get("category");
       setCategories(response.data.categoryTree || []);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -94,7 +94,7 @@ export default function EditCategoryPage() {
     if (!selectedCategory) return;
 
     try {
-      const response = await adminApi.delete(
+      const response = await adminInstance.delete(
         `category/${selectedCategory._id}`
       );
 
@@ -127,7 +127,7 @@ export default function EditCategoryPage() {
     };
 
     try {
-      const response  = await adminApi.put(`category/${categoryId}`, data);
+      const response  = await adminInstance.put(`category/${categoryId}`, data);
       if (response.data && response.data.success) {
         toast.success(response.data.message, {
           transition: Slide,

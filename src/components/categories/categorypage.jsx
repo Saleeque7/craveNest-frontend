@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CategoryList from './categoryList';
 import AddCategoryForm from './Addcategory';
-import { adminApi } from '../../helpers/api/axioscall';
+import { adminInstance } from '../../helpers/api/inteceptors';
 
 const CategoryPage = () => {
     const [categories, setCategories] = useState([]);
@@ -12,7 +12,7 @@ const CategoryPage = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await adminApi.get('category');
+            const response = await adminInstance.get('category');
             setCategories(response.data.categoryTree || []);
         } catch (error) {
             console.error('Error fetching categories:', error);

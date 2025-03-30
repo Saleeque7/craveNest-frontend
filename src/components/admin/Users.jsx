@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { adminApi } from "../../helpers/api/axioscall";
+import { adminInstance } from "../../helpers/api/inteceptors";
 import { useSelector } from "react-redux";
 
 export default function Users() {
@@ -9,7 +9,7 @@ export default function Users() {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      const response = await adminApi.put(`/users/${userId}/role`, {
+      const response = await adminInstance.put(`/users/${userId}/role`, {
         isAdmin: newRole === "Admin",
       });
       if (response.data.success) {
@@ -29,7 +29,7 @@ export default function Users() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await adminApi.get("/users");
+        const response = await adminInstance.get("/users");
         setUsers(response.data.users);
       } catch (error) {
         console.error("Error fetching users:", error);
