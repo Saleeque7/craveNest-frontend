@@ -27,7 +27,7 @@ const Login = () => {
         });
         setTimeout(() => {
           setLoading(false);
-          localStorage.setItem("accessTokenAdmin", accessToken);
+          localStorage.setItem("adminTokenKey", accessToken);
           dispatch(setAdminInfo(response.data.admin));
           dispatch(setAuthenticated());
           navigate("/admin/home");
