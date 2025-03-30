@@ -5,6 +5,7 @@ import { store } from "../redux/store";
 import axios from "axios";
 
 const baseUrl = config.VITE_BaseUrl;
+const adminbaseURL = `${config.VITE_BaseUrl}/admin`
 
 const CreateInstance = (baseURL, accessTokenKey, action, contentType) => {
   const instance = axios.create({
@@ -71,7 +72,7 @@ export const userInstance = CreateInstance(
   "application/json"
 );
 export const adminInstance = CreateInstance(
-  baseUrl,
+  adminbaseURL,
   "adminTokenKey",
   adminLogout,
  "application/json"
